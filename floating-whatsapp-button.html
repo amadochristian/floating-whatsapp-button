@@ -1,0 +1,83 @@
+       <!DOCTYPE html>
+       <html lang="pt-br">
+       <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Floating Whatsapp Button</title>
+       </head>
+       <body>
+
+        <!-- Linka o font-awesome para o uso do icone do Whatsapp -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+        <!-- Estiliza o botão do Whatsapp -->
+        <style>
+            #whatsapp{
+                position:fixed;
+                width: 60px;
+                height: 60px;
+                bottom: 20px;
+                right: 20px;
+                text-align: center;
+                font-size: 30px;
+                color: #FFF;
+                background-color: #25d366;
+                border-radius: 50%;
+                box-shadow: 1px 1px 2px #888;
+                z-index: 9999;
+            }
+        </style>
+
+        <a id="whatsapp"><i style="margin-top:16px;" class="fa-brands fa-whatsapp"></i></a>
+    
+
+        <script>
+        // Evitar que o código seja carregado antes do DOM ser carregado
+        document.addEventListener("DOMContentLoaded", function() {
+            var whatsappButton = document.getElementById("whatsapp");
+            if (whatsappButton) {
+                whatsappButton.addEventListener("click", function(event) {
+                    event.preventDefault();
+                    
+                    // Verifica se estamos em uma página de produto (buscando o sku do produto)
+                    // Aqui você deve identificar alguma class que somente a página do produto irá conter, nesse caso foi o SKU do produto
+                    var productNameElement = document.querySelector(".product-sku");
+                    
+                    // Se existir um sku de produto, estamos na página do produto
+                    if (productNameElement) {
+                        var productName = productNameElement.innerText.trim();
+                        var productPriceElement = document.querySelector("#variacaoPreco");
+                        var productPrice = productPriceElement ? productPriceElement.innerText.trim() : "Preço não disponível";
+                        var productUrl = window.location.href;
+                        
+                        // Esse formato de mensagem pode ser alterada
+                        var message = `Olá! Gostaria de ter mais informações sobre o produto:\n\n` +
+                                    `*${productName}*\n` +
+                                    `Preço: R$ ${productPrice}\n` +
+                                    `URL: ${productUrl}\n\n` +
+                                    `Obrigado!`;
+                    } else {
+                        // Se não estiver na página de produto, usa a mensagem genérica
+                        var message = `Olá! Estava navegando no site e gostaria de falar com alguém!`;
+                    }
+
+                    // Codifica e redireciona para o WhatsApp
+                    var encodedMessage = encodeURIComponent(message);
+                    var whatsappLink = `https://api.whatsapp.com/send?phone=5511999999999&text=${encodedMessage}`;
+                    window.open(whatsappLink, "_blank");
+                });
+            }
+        });
+        </script>
+
+
+        
+       </body>
+       </html>
+
+
+
+
+
+
+
